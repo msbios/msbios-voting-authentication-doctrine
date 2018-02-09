@@ -1,0 +1,137 @@
+<?php
+/**
+ * @access protected
+ * @author Judzhin Miles <info[woof-woof]msbios.com>
+ */
+
+$identity = $this->identity();
+
+if ($identity) {
+    /** @var int $identifier */
+    $identifier = 1;
+
+    /** @var string $relation */
+    // $relation = 'SOME_RELATION[100550]';
+    $relation = null;
+
+    /** @var \MSBios\Voting\Resource\Doctrine\Entity\Poll $poll */
+    $poll = $this->poll()->find($identifier, $relation);
+}
+
+?>
+
+<?php /** @var \Zend\View\Helper\FlashMessenger $flash */ ?>
+<?php $flash = $this->flashMessenger(); ?>
+
+<?php if ($flash->hasSuccessMessages()) : ?>
+
+    <div class="alert alert-success no-border">
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <span class="text-semibold"><?= $this->translate('Success!'); ?></span>
+        <?= implode(', ', $flash->getSuccessMessages()); ?>
+    </div>
+
+<?php elseif ($flash->hasInfoMessages()) : ?>
+
+    <div class="alert alert-info no-border">
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <span class="text-semibold"><?= $this->translate('Success!'); ?></span>
+        <?= implode(', ', $flash->getInfoMessages()); ?>
+    </div>
+
+<?php endif; ?>
+
+<?php if ($flash->hasWarningMessages()) : ?>
+
+    <div class="alert alert-danger no-border">
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <span class="text-semibold"><?= $this->translate('Warning!'); ?></span>
+        <?= implode(', ', $flash->getWarningMessages()); ?>
+    </div>
+
+<?php endif; ?>
+
+<?php if($identity): ?>
+    <h1>
+        <?= $poll->getSubject(); ?><br>
+        <small class="text-muted">
+            <b>Total Votes:</b>
+            <small><?= $poll->getTotal(); ?></small>
+            <b>Avg:</b>
+            <small><?= number_format($poll->getAvg(), 2); ?></small>
+        </small>
+    </h1>
+    <?php
+
+    /** @var \Zend\Form\FormInterface $form */
+    $form = $this->poll()->form();
+    $form->setAttribute('action', $this->url('home/vote'));
+    $form->prepare();
+
+    ?>
+
+    <div style="margin-bottom: 20px;">
+        <?php if (!$this->poll()->isVoted($poll)) : ?>
+            <?= $this->form()->openTag($form); ?>
+            <ul>
+                <?php $element = $form->get('poll_option_identifier'); ?>
+
+                <?php foreach ($this->poll()->votes($poll) as $vote): ?>
+                    <li>
+                        <label>
+                            <?= $this->formRadio(new \Zend\Form\Element\Radio($element->getName(), [
+                                'value_options' => [[
+                                    'value' => $vote['id'],
+                                ]]
+                            ])); ?>
+                            <?= $vote['name']; ?>
+                        </label>
+                        <small>
+                            Total: <?= $vote['total']; ?>
+                            Percents: <?= number_format($vote['percent'], 2); ?>%
+                            <?php if ($vote['total']): ?>
+                                <a href="<?= $this->url('home/undo', [
+                                    'option_id' => $vote['id'],
+                                    'relation' => $relation
+                                ]); ?>">Undo</a>
+                            <?php endif; ?>
+                        </small>
+
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            <?= $this->formElement($form->get('poll_relation')); ?>
+            <?= $this->formButton($form->get('poll_identifier')->setAttribute('class', 'btn btn-default')->setLabel('Button')); ?>
+            <?= $this->form()->closeTag($form); ?>
+        <?php else: ?>
+            <?php $votes = $this->poll()->votes($poll); ?>
+
+            <ul>
+                <?php foreach ($votes as $vote): ?>
+                    <li>
+                        <?= $vote['name']; ?>
+                        <small><?= $vote['vote']; ?></small>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+    </div>
+<?php else: ?>
+    <h1>Authentication</h1>
+    auth form
+<?php endif; ?>
+
+<ul>
+    <li>Vote Module version: <?= \MSBios\Voting\Doctrine\Module::VERSION; ?></li>
+    <li>Vote Resource Module version: <?= \MSBios\Voting\Resource\Doctrine\Module::VERSION; ?></li>
+    <li>Vote Authentication Doctrine Module version: <?= \MSBios\Voting\Authentication\Doctrine\Module::VERSION; ?></li>
+</ul>

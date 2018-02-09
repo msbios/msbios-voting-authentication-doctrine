@@ -1,0 +1,56 @@
+{
+  "name": "msbios/voting-authentication-doctrine",
+  "description": "MSBios Voting Authentication Doctrine",
+  "license": "MIT",
+  "keywords": [
+    "php"
+  ],
+  "homepage": "https://github.com/msbios/msbios-voting-authentication-doctrine",
+  "minimum-stability": "stable",
+  "authors": [
+    {
+      "name": "Judzhin Miles",
+      "email": "info@msbios.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "MSBios\\Voting\\Authentication\\Doctrine\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "MSBiosTest\\Voting\\Authentication\\Doctrine\\": "tests/"
+    }
+  },
+  "require": {
+    "msbios/voting-doctrine": "^1.0"
+  },
+  "require-dev": {
+    "msbios/portal-doctrine": "^1.0",
+    "msbios/test": "^1.0",
+    "msbios/debug": "^1.0"
+  },
+  "scripts": {
+    "cs-check": "phpcs",
+    "cs-fix": "phpcbf",
+    "test": [
+      "@cs-check",
+      "phpunit --colors=always"
+    ],
+    "alter": "./vendor/bin/doctrine-module orm:schema-tool:update --force",
+    "themes": [
+      "cd public && ln -s ../vendor/msbios/application/themes/default/public default",
+      "cd public && ln -s ../vendor/msbios/cpanel/themes/limitless/public limitless"
+    ],
+    "serve": "php -S 0.0.0.0:3107 -t public index.php",
+    "commit": "git add . && git commit -a -m \"Lazy Composer Commiter\" && git push",
+    "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+    "upload-coverage": "coveralls -v"
+  },
+  "extra": {
+    "zf": {
+      "component": "MSBios\\Voting\\Authentication\\Doctrine"
+    }
+  }
+}
