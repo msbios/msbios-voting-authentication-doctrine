@@ -45,7 +45,7 @@ class IndexController extends DefaultIndexController implements AuthenticationSe
                 /** @var Redirect $redirect */
                 $redirect = $this->redirect();
 
-                if (!empty($params['redirect'])) {
+                if (! empty($params['redirect'])) {
                     return $redirect->toUrl(base64_decode($params['redirect']));
                 }
 
