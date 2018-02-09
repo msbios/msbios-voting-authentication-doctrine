@@ -11,11 +11,14 @@ if ($identity) {
     $identifier = 1;
 
     /** @var string $relation */
-    // $relation = 'SOME_RELATION[100550]';
     $relation = null;
+    $relation = 'SOME_RELATION[100550]';
 
     /** @var \MSBios\Voting\Resource\Doctrine\Entity\Poll $poll */
     $poll = $this->poll()->find($identifier, $relation);
+
+    /** @var boolean $isVoted */
+    $isVoted = $this->poll()->isVoted($poll);
 }
 
 ?>
@@ -88,11 +91,13 @@ if ($identity) {
                 <?php foreach ($this->poll()->votes($poll) as $vote): ?>
                     <li>
                         <label>
-                            <?= $this->formRadio(new \Zend\Form\Element\Radio($element->getName(), [
-                                'value_options' => [[
-                                    'value' => $vote['id'],
-                                ]]
-                            ])); ?>
+                            <?php if(!$isVoted): ?>
+                                <?= $this->formRadio(new \Zend\Form\Element\Radio($element->getName(), [
+                                    'value_options' => [[
+                                        'value' => $vote['id'],
+                                    ]]
+                                ])); ?>
+                            <?php endif; ?>
                             <?= $vote['name']; ?>
                         </label>
                         <small>

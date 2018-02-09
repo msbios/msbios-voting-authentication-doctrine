@@ -24,10 +24,11 @@
     }
   },
   "require": {
-    "msbios/voting-doctrine": "^1.0"
+    "msbios/voting-authentication-resource-doctrine": "^1.0"
   },
   "require-dev": {
     "msbios/portal-doctrine": "^1.0",
+    "msbios/voting-doctrine": "^1.0",
     "msbios/test": "^1.0",
     "msbios/debug": "^1.0"
   },
