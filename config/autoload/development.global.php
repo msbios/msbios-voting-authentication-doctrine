@@ -4,8 +4,10 @@
  * @access protected
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
+
 namespace MSBios\Voting\Authentication\Doctrine;
 
+use MSBios\Authentication\Initializer\AuthenticationServiceInitializer;
 use Zend\Router\Http\Method;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
@@ -65,6 +67,15 @@ return [
                             ]
                         ]
                     ],
+                    'login' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => 'login[/]',
+                            'defaults' => [
+                                'action' => 'login'
+                            ],
+                        ]
+                    ]
                 ]
             ],
         ],
@@ -78,6 +89,10 @@ return [
         'aliases' => [
             \MSBios\Application\Controller\IndexController::class =>
                 Controller\IndexController::class
+        ],
+        'initializers' => [
+            AuthenticationServiceInitializer::class =>
+                new AuthenticationServiceInitializer
         ]
     ],
 

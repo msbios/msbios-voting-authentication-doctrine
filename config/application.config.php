@@ -10,7 +10,6 @@ return [
         'MSBios\Portal\Doctrine',
         'MSBios\Db',
         'Zend\Db',
-        'MSBios\Voting\CPanel',
         'MSBios\Test',
         'MSBios\Portal',
         'MSBios\Application',
@@ -59,7 +58,6 @@ return [
         'MSBios\Voting\Doctrine',
         'MSBios\Voting\Resource',
         'MSBios\Voting\Resource\Doctrine',
-        'MSBios\Voting\CPanel\Doctrine',
     ],
     // These are various options for the listeners attached to the ModuleManager
     'module_listener_options' => [

@@ -127,7 +127,26 @@ if ($identity) {
     </div>
 <?php else: ?>
     <h1>Authentication</h1>
-    auth form
+
+    <form method="POST" action="<?= $this->url('home/login');?>" class="row">
+        <div class="panel panel-body col-md-3">
+            <div class="form-group has-feedback has-feedback-left">
+                <input type="text" name="username" class="form-control" placeholder="Username" value="">
+            </div>
+
+            <div class="form-group has-feedback has-feedback-left">
+                <input type="password" name="password" class="form-control" placeholder="Password" value="">
+            </div>
+
+            <div class="form-group">
+                <input type="hidden" name="redirect" value="">
+                <button type="submit" class="btn btn-primary">
+                    Sign in <i class="icon-circle-right2 position-right"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+
 <?php endif; ?>
 
 <ul>
