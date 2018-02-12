@@ -79,7 +79,8 @@ class IndexController extends DefaultIndexController implements
         // r($poll); die();
 
         $vote = $this->getVoteManager()->find($poll);
-        r($vote); die();
+        r($vote);
+        die();
 
         r(
             $this->params()->fromRoute('poll_id'),
@@ -93,6 +94,4 @@ class IndexController extends DefaultIndexController implements
         $this->flashMessenger()->addInfoMessage('The selected voice was canceled.');
         return $this->redirect()->toRoute('home');
     }
-
-
 }

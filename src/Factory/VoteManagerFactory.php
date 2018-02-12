@@ -7,7 +7,6 @@ namespace MSBios\Voting\Authentication\Doctrine\Factory;
 
 use Interop\Container\ContainerInterface;
 use MSBios\Voting\Authentication\Doctrine\VoteManager;
-use MSBios\Voting\Authentication\IdentityResolver;
 use MSBios\Voting\Doctrine\Factory\VoteManagerFactory as DefaultVoteManagerFactory;
 use MSBios\Voting\Module;
 use Zend\Config\Config;
@@ -19,13 +18,18 @@ use Zend\Config\Config;
 class VoteManagerFactory extends DefaultVoteManagerFactory
 {
 
+    /**
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
+     * @return VoteManager
+     */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /** @var Config $options */
         $options = $container->get(Module::class);
 
         return new VoteManager(
-            $container->get(IdentityResolver::class),
             $container->get($options->get('vote_resolver')),
             $container->get($options->get('check_resolver'))
         );

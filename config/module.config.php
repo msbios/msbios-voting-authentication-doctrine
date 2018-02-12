@@ -18,6 +18,8 @@ return [
             // managers
             VoteManager::class =>
                 Factory\VoteManagerFactory::class,
+            VoteResolver::class =>
+                Factory\VoteResolverFactory::class,
 
             // resolvers
             Resolver\CheckCookieResolver::class =>
@@ -31,7 +33,7 @@ return [
         ],
         'aliases' => [
             \MSBios\Voting\VoteManager::class =>
-                VoteManager::class
+                VoteManager::class,
         ],
         'initializers' => [
             AuthenticationServiceInitializer::class =>
@@ -40,6 +42,13 @@ return [
     ],
 
     \MSBios\Voting\Module::class => [
+
+        /**
+         *
+         * Expects: string
+         * Default: MSBios\Voting\VoteResolver
+         */
+        'vote_resolver' => VoteResolver::class,
 
         /**
          *
