@@ -6,17 +6,15 @@
 
 namespace MSBios\Voting\Authentication\Doctrine\Resolver;
 
-use MSBios\Authentication\AuthenticationServiceAwareInterface;
-use MSBios\Authentication\AuthenticationServiceAwareTrait;
 use MSBios\Voting\Doctrine\Resolver\CheckInterface;
-use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
-use MSBios\Voting\Resource\Doctrine\Entity\RelationInterface;
+use MSBios\Voting\Resource\Record\PollInterface;
+use MSBios\Voting\Resource\Record\RelationInterface;
 
 /**
  * Class CheckCookieResolver
  * @package MSBios\Voting\Authentication\Doctrine\Resolver
  */
-class CheckCookieResolver extends AbstractCookieResolver  implements CheckInterface
+class CheckCookieResolver extends AbstractCookieResolver implements CheckInterface
 {
 
     /**

@@ -7,11 +7,9 @@
 namespace MSBios\Voting\Authentication\Doctrine\Resolver;
 
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
-use MSBios\Authentication\AuthenticationServiceAwareInterface;
-use MSBios\Authentication\AuthenticationServiceAwareTrait;
 use MSBios\Doctrine\ObjectManagerAwareTrait;
 use MSBios\Voting\Doctrine\Resolver\VoteInterface;
-use MSBios\Voting\Resource\Doctrine\Entity;
+use MSBios\Voting\Resource\Record\OptionInterface;
 
 /**
  * Class VoteCookieResolver
@@ -24,10 +22,10 @@ class VoteCookieResolver extends AbstractCookieResolver implements
     use ObjectManagerAwareTrait;
 
     /**
-     * @param Entity\OptionInterface $option
+     * @param OptionInterface $option
      * @param null $relation
      */
-    public function vote(Entity\OptionInterface $option, $relation = null)
+    public function vote(OptionInterface $option, $relation = null)
     {
         if ($this->getAuthenticationService()->hasIdentity()) {
             /** @var string $key */
@@ -37,10 +35,10 @@ class VoteCookieResolver extends AbstractCookieResolver implements
     }
 
     /**
-     * @param Entity\OptionInterface $option
+     * @param OptionInterface $option
      * @param null $relation
      */
-    public function undo(Entity\OptionInterface $option, $relation = null)
+    public function undo(OptionInterface $option, $relation = null)
     {
         if ($this->getAuthenticationService()->hasIdentity()) {
             /** @var string $key */

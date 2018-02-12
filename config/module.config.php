@@ -14,6 +14,12 @@ return [
 
     'service_manager' => [
         'factories' => [
+
+            // managers
+            VoteManager::class =>
+                Factory\VoteManagerFactory::class,
+
+            // resolvers
             Resolver\CheckCookieResolver::class =>
                 InvokableFactory::class,
             Resolver\CheckRepositoryResolver::class =>
@@ -22,6 +28,10 @@ return [
                 InvokableFactory::class,
             Resolver\VoteRepositoryResolver::class =>
                 InvokableFactory::class
+        ],
+        'aliases' => [
+            \MSBios\Voting\VoteManager::class =>
+                VoteManager::class
         ],
         'initializers' => [
             AuthenticationServiceInitializer::class =>
@@ -39,8 +49,8 @@ return [
          * ]
          */
         'vote_resolvers' => [
-            // Resolver\VoteRepositoryResolver::class => -100,
-            // Resolver\VoteCookieResolver::class => -120,
+            Resolver\VoteRepositoryResolver::class => -100,
+            Resolver\VoteCookieResolver::class => -120,
         ],
 
         /**
@@ -52,7 +62,7 @@ return [
          */
         'check_resolvers' => [
             Resolver\CheckRepositoryResolver::class => -100,
-            // Resolver\CheckCookieResolver::class => -120,
+            Resolver\CheckCookieResolver::class => -120,
         ]
     ]
 ];

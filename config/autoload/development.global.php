@@ -12,6 +12,8 @@ use MSBios\Voting\Doctrine\Resolver\CheckCookieResolver;
 use MSBios\Voting\Doctrine\Resolver\CheckRepositoryResolver;
 use MSBios\Voting\Doctrine\Resolver\VoteCookieResolver;
 use MSBios\Voting\Doctrine\Resolver\VoteRepositoryResolver;
+use MSBios\Voting\Initializer\PollManagerInitializer;
+use MSBios\Voting\Initializer\VoteManagerInitializer;
 use Zend\Router\Http\Method;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
@@ -56,7 +58,7 @@ return [
                     'undo' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route' => 'undo/:option_id[/[:relation[/]]]',
+                            'route' => 'undo/:poll_id[/[:relation[/]]]',
                             'defaults' => [
                                 'action' => 'undo'
                             ],
@@ -95,8 +97,12 @@ return [
                 Controller\IndexController::class
         ],
         'initializers' => [
+            PollManagerInitializer::class =>
+                new PollManagerInitializer,
             AuthenticationServiceInitializer::class =>
-                new AuthenticationServiceInitializer
+                new AuthenticationServiceInitializer,
+            VoteManagerInitializer::class =>
+                new VoteManagerInitializer
         ]
     ],
 

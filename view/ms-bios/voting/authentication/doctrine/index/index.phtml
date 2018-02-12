@@ -134,7 +134,9 @@ if ($identity) {
                     </li>
                 <?php endforeach; ?>
             </ul>
-            <a href="#" class="btn btn-link">Change voice</a>
+            <a href="<?= $this->url('home/undo', ['poll_id' => $identifier, 'relation' => $relation]); ?>" class="btn btn-link">
+                Change voice
+            </a>
         <?php endif; ?>
     </div>
 <?php else: ?>

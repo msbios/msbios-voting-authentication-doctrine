@@ -9,7 +9,7 @@ namespace MSBios\Voting\Authentication\Doctrine\Resolver;
 use MSBios\Authentication\AuthenticationServiceAwareInterface;
 use MSBios\Authentication\AuthenticationServiceAwareTrait;
 use MSBios\Voting\Authentication\Doctrine\Exception;
-use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
+use MSBios\Voting\Resource\Record\PollInterface;
 use Zend\Authentication\AuthenticationServiceInterface;
 
 /**
@@ -29,7 +29,7 @@ abstract class AbstractCookieResolver implements AuthenticationServiceAwareInter
     {
         /** @var AuthenticationServiceInterface $authenticationService */
         $authenticationService = $this->getAuthenticationService();
-        if (!$authenticationService->hasIdentity()) {
+        if (! $authenticationService->hasIdentity()) {
             new Exception('You must have identity for hash value');
         }
 

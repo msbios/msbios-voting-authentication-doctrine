@@ -9,6 +9,11 @@ namespace MSBios\Voting\Authentication\Doctrine\Controller;
 use MSBios\Authentication\AuthenticationServiceAwareInterface;
 use MSBios\Authentication\AuthenticationServiceAwareTrait;
 use MSBios\Voting\Doctrine\Controller\IndexController as DefaultIndexController;
+use MSBios\Voting\PollManagerAwareInterface;
+use MSBios\Voting\PollManagerAwareTrait;
+use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
+use MSBios\Voting\VoteManagerAwareInterface;
+use MSBios\Voting\VoteManagerAwareTrait;
 use Zend\Authentication\Adapter\ValidatableAdapterInterface;
 use Zend\Authentication\Result;
 use Zend\Mvc\Controller\Plugin\Redirect;
@@ -17,9 +22,14 @@ use Zend\Mvc\Controller\Plugin\Redirect;
  * Class IndexController
  * @package MSBios\Voting\Authentication\Doctrine\Controller
  */
-class IndexController extends DefaultIndexController implements AuthenticationServiceAwareInterface
+class IndexController extends DefaultIndexController implements
+    AuthenticationServiceAwareInterface,
+    PollManagerAwareInterface,
+    VoteManagerAwareInterface
 {
     use AuthenticationServiceAwareTrait;
+    use PollManagerAwareTrait;
+    use VoteManagerAwareTrait;
 
     /**
      * @return \Zend\Http\Response
@@ -53,4 +63,36 @@ class IndexController extends DefaultIndexController implements AuthenticationSe
             }
         }
     }
+
+    /**
+     *
+     */
+    public function undoAction()
+    {
+
+        /** @var PollInterface $poll */
+        $poll = $this->getPollManager()->find(
+            $this->params()->fromRoute('poll_id'),
+            $this->params()->fromRoute('relation')
+        );
+
+        // r($poll); die();
+
+        $vote = $this->getVoteManager()->find($poll);
+        r($vote); die();
+
+        r(
+            $this->params()->fromRoute('poll_id'),
+            $this->params()->fromRoute('relation')
+        );
+        die();
+        $this->poll()->undo(
+            $this->params()->fromRoute('poll_id'),
+            $this->params()->fromRoute('relation')
+        );
+        $this->flashMessenger()->addInfoMessage('The selected voice was canceled.');
+        return $this->redirect()->toRoute('home');
+    }
+
+
 }
