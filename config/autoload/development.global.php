@@ -177,6 +177,7 @@ return [
          * ]
          */
         'vote_resolvers' => [
+
         ],
 
         /**

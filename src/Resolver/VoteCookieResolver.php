@@ -17,7 +17,7 @@ use MSBios\Voting\Resource\Doctrine\Entity;
  * Class VoteCookieResolver
  * @package MSBios\Voting\Authentication\Doctrine\Resolver
  */
-class VoteCookieResolver extends AbstractCookieResolver  implements
+class VoteCookieResolver extends AbstractCookieResolver implements
     VoteInterface,
     ObjectManagerAwareInterface,
     AuthenticationServiceAwareInterface

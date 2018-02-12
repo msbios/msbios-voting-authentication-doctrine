@@ -23,5 +23,5 @@ abstract class AbstractCookieResolver implements AuthenticationServiceAwareInter
      * @param null $relation
      * @return mixed
      */
-    protected abstract function hash(PollInterface $poll, $relation = null);
+    abstract protected function hash(PollInterface $poll, $relation = null);
 }

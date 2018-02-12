@@ -9,82 +9,51 @@ namespace MSBios\Voting\Authentication\Doctrine\Resolver;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
+use MSBios\Authentication\AuthenticationServiceAwareInterface;
+use MSBios\Authentication\AuthenticationServiceAwareTrait;
+use MSBios\Authentication\IdentityInterface;
 use MSBios\Doctrine\ObjectManagerAwareTrait;
+use MSBios\Guard\Resource\UserInterface;
 use MSBios\Resource\Doctrine\EntityInterface;
+use MSBios\Voting\Authentication\Resource\Doctrine\Entity\User;
+use MSBios\Voting\Authentication\Resource\Doctrine\Entity\User\Relation;
 use MSBios\Voting\Doctrine\Resolver\VoteInterface;
+use MSBios\Voting\Doctrine\Resolver\VoteRepositoryResolver as DefaultVoteRepositoryResolver;
 use MSBios\Voting\Resource\Doctrine\Entity;
-use MSBios\Voting\Resource\Entity\Vote;
+use Zend\Authentication\AuthenticationServiceInterface;
 
 /**
  * Class VoteRepositoryResolver
  * @package MSBios\Voting\Authentication\Doctrine\Resolver
  */
-class VoteRepositoryResolver implements
+class VoteRepositoryResolver extends DefaultVoteRepositoryResolver implements
     VoteInterface,
-    ObjectManagerAwareInterface
+    ObjectManagerAwareInterface,
+    AuthenticationServiceAwareInterface
 {
     use ObjectManagerAwareTrait;
+    use AuthenticationServiceAwareTrait;
 
     /**
-     * @param Entity\OptionInterface $option
+     * @param Entity\VoteInterface $vote
+     * @param IdentityInterface $identity
      * @param null $relation
-     * @return EntityInterface|Entity\Vote
+     * @return null|object
      */
-    protected function find(Entity\OptionInterface $option, $relation = null)
+    protected function resolve(Entity\VoteInterface $vote, IdentityInterface $identity, $relation = null)
     {
         /** @var ObjectManager $dem */
         $dem = $this->getObjectManager();
 
-        if (empty($relation)) {
+        /** @var ObjectRepository $repository */
+        $repository = empty(! $relation)
+            ? $dem->getRepository(Relation::class)
+            : $dem->getRepository(User::class);
 
-            /** @var ObjectRepository $repository */
-            $repository = $dem->getRepository(Entity\Vote::class);
-
-            /** @var EntityInterface $vote */
-            $vote = $repository->findOneBy(['option' => $option]);
-
-            if (! $vote) {
-
-                /** @var EntityInterface $vote */
-                $vote = new Entity\Vote;
-                $vote->setPoll($option->getPoll())
-                    ->setOption($option)
-                    ->setCreatedAt(new \DateTime('now'))
-                    ->setModifiedAt(new \DateTime('now'));
-
-                $dem->persist($vote);
-                $dem->flush();
-            }
-        } else {
-
-            /** @var EntityInterface $poll */
-            $poll = $dem->getRepository(Entity\Poll\Relation::class)->findOneBy([
-                'code' => $relation
-            ]);
-
-            /** @var ObjectRepository $repository */
-            $repository = $dem->getRepository(Entity\Vote\Relation::class);
-
-            /** @var EntityInterface $vote */
-            $vote = $repository->findOneBy([
-                'poll' => $poll,
-                'option' => $option
-            ]);
-
-            if (! $vote) {
-                /** @var EntityInterface $vote */
-                $vote = new Entity\Vote\Relation;
-                $vote->setPoll($poll)
-                    ->setOption($option)
-                    ->setCreatedAt(new \DateTime('now'))
-                    ->setModifiedAt(new \DateTime('now'));
-
-                $dem->persist($vote);
-                $dem->flush();
-            }
-        }
-
-        return $vote;
+        return $repository->findOneBy([
+            'vote' => $vote,
+            'user' => $identity
+        ]);
     }
 
     /**
@@ -93,16 +62,34 @@ class VoteRepositoryResolver implements
      */
     public function vote(Entity\OptionInterface $option, $relation = null)
     {
-        /** @var Vote $vote */
-        $vote = $this->find($option, $relation);
-        $vote->setTotal(1 + $vote->getTotal())
-            ->setModifiedAt(new \DateTime('now'));
+        /** @var AuthenticationServiceInterface $authenticationService */
+        $authenticationService = $this->getAuthenticationService();
+        if ($authenticationService->hasIdentity()) {
 
-        /** @var ObjectManager $dem */
-        $dem = $this->getObjectManager();
+            /** @var Entity\VoteInterface $vote */
+            $vote = $this->find($option, $relation);
 
-        $dem->merge($vote);
-        $dem->flush();
+            /** @var IdentityInterface|UserInterface $identity */
+            $identity = $authenticationService->getIdentity();
+
+            /** @var EntityInterface $result */
+            if (! $result = $this->resolve($vote, $identity, $relation)) {
+
+                /** @var ObjectManager $dem */
+                $dem = $this->getObjectManager();
+
+                /** @var EntityInterface $entity */
+                $entity = (! empty($relation)) ? new Relation : new User;
+
+                $entity->setVote($vote)
+                    ->setUser($identity)
+                    ->setCreatedAt(new \DateTime('now'))
+                    ->setModifiedAt(new \DateTime('now'));
+
+                $dem->persist($entity);
+                $dem->flush();
+            }
+        };
     }
 
     /**
@@ -111,17 +98,23 @@ class VoteRepositoryResolver implements
      */
     public function undo(Entity\OptionInterface $option, $relation = null)
     {
-        /** @var Vote $vote */
-        $vote = $this->find($option, $relation);
+        /** @var AuthenticationServiceInterface $authenticationService */
+        $authenticationService = $this->getAuthenticationService();
+        if ($authenticationService->hasIdentity()) {
 
-        if ($vote->getTotal()) {
-            $vote->setTotal($vote->getTotal() - 1)
-                ->setModifiedAt(new \DateTime('now'));
+            /** @var Entity\VoteInterface $vote */
+            $vote = $this->find($option, $relation);
 
-            /** @var ObjectManager $dem */
-            $dem = $this->getObjectManager();
-            $dem->merge($vote);
-            $dem->flush();
-        }
+            /** @var IdentityInterface $identity */
+            $identity = $authenticationService->getIdentity();
+
+            /** @var EntityInterface $entity */
+            if ($entity = $this->resolve($vote, $identity, $relation)) {
+                /** @var ObjectManager $dem */
+                $dem = $this->getObjectManager();
+                $dem->remove($entity);
+                $dem->flush();
+            }
+        };
     }
 }

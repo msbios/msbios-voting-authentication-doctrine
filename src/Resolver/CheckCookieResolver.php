@@ -27,7 +27,7 @@ class CheckCookieResolver implements CheckInterface, AuthenticationServiceAwareI
      */
     public function check(PollInterface $poll)
     {
-        if (!$this->getAuthenticationService()->hasIdentity()) {
+        if (! $this->getAuthenticationService()->hasIdentity()) {
             return false;
         }
 
