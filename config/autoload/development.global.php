@@ -8,6 +8,10 @@
 namespace MSBios\Voting\Authentication\Doctrine;
 
 use MSBios\Authentication\Initializer\AuthenticationServiceInitializer;
+use MSBios\Voting\Doctrine\Resolver\CheckCookieResolver;
+use MSBios\Voting\Doctrine\Resolver\CheckRepositoryResolver;
+use MSBios\Voting\Doctrine\Resolver\VoteCookieResolver;
+use MSBios\Voting\Doctrine\Resolver\VoteRepositoryResolver;
 use Zend\Router\Http\Method;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
@@ -177,6 +181,8 @@ return [
          * ]
          */
         'vote_resolvers' => [
+            VoteRepositoryResolver::class => -100,
+            VoteCookieResolver::class => -100
 
         ],
 
@@ -188,6 +194,8 @@ return [
          * ]
          */
         'check_resolvers' => [
+            CheckRepositoryResolver::class => -100,
+            CheckCookieResolver::class => -100
         ]
     ]
 ];
