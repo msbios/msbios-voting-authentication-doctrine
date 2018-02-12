@@ -8,6 +8,7 @@ namespace MSBios\Voting\Authentication\Doctrine\Controller;
 
 use MSBios\Authentication\AuthenticationServiceAwareInterface;
 use MSBios\Authentication\AuthenticationServiceAwareTrait;
+use MSBios\Resource\Doctrine\EntityInterface;
 use MSBios\Voting\Doctrine\Controller\IndexController as DefaultIndexController;
 use MSBios\Voting\PollManagerAwareInterface;
 use MSBios\Voting\PollManagerAwareTrait;
@@ -69,26 +70,16 @@ class IndexController extends DefaultIndexController implements
      */
     public function undoAction()
     {
-
         /** @var PollInterface $poll */
         $poll = $this->getPollManager()->find(
             $this->params()->fromRoute('poll_id'),
             $this->params()->fromRoute('relation')
         );
 
-        // r($poll); die();
-
+        /** @var EntityInterface $vote */
         $vote = $this->getVoteManager()->find($poll);
-        r($vote);
-        die();
-
-        r(
-            $this->params()->fromRoute('poll_id'),
-            $this->params()->fromRoute('relation')
-        );
-        die();
         $this->poll()->undo(
-            $this->params()->fromRoute('poll_id'),
+            $vote->getVote()->getOption()->getId(),
             $this->params()->fromRoute('relation')
         );
         $this->flashMessenger()->addInfoMessage('The selected voice was canceled.');
