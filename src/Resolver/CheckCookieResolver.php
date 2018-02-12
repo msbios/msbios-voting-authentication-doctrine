@@ -8,7 +8,6 @@ namespace MSBios\Voting\Authentication\Doctrine\Resolver;
 
 use MSBios\Authentication\AuthenticationServiceAwareInterface;
 use MSBios\Authentication\AuthenticationServiceAwareTrait;
-use MSBios\Authentication\IdentityInterface;
 use MSBios\Voting\Doctrine\Resolver\CheckInterface;
 use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
 use MSBios\Voting\Resource\Doctrine\Entity\RelationInterface;
@@ -17,9 +16,8 @@ use MSBios\Voting\Resource\Doctrine\Entity\RelationInterface;
  * Class CheckCookieResolver
  * @package MSBios\Voting\Authentication\Doctrine\Resolver
  */
-class CheckCookieResolver implements CheckInterface, AuthenticationServiceAwareInterface
+class CheckCookieResolver extends AbstractCookieResolver  implements CheckInterface
 {
-    use AuthenticationServiceAwareTrait;
 
     /**
      * @param PollInterface $poll
@@ -31,9 +29,6 @@ class CheckCookieResolver implements CheckInterface, AuthenticationServiceAwareI
             return false;
         }
 
-        /** @var IdentityInterface $identity */
-        $identity = $this->getAuthenticationService()->getIdentity();
-
         /** @var string $relation */
         $relation = '';
 
@@ -42,11 +37,7 @@ class CheckCookieResolver implements CheckInterface, AuthenticationServiceAwareI
         }
 
         /** @var string $key */
-        $key = md5(
-            $poll->getId() . md5(
-                $relation . md5($this->getAuthenticationService()->getIdentity()->getId())
-            )
-        );
+        $key = $this->hash($poll, $relation);
 
         return array_key_exists($key, $_COOKIE);
     }

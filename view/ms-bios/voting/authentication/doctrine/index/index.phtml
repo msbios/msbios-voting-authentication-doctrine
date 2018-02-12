@@ -17,6 +17,9 @@ if ($identity) {
     /** @var \MSBios\Voting\Resource\Doctrine\Entity\Poll $poll */
     $poll = $this->poll()->find($identifier, $relation);
 
+    /** @var array $votes */
+    $votes = $this->poll()->votes($poll);
+
     /** @var boolean $isVoted */
     $isVoted = $this->poll()->isVoted($poll);
 }
@@ -63,7 +66,7 @@ if ($identity) {
 
 <?php endif; ?>
 
-<?php if($identity): ?>
+<?php if ($identity): ?>
     <h1>
         <?= $poll->getSubject(); ?><br>
         <small class="text-muted">
@@ -83,15 +86,15 @@ if ($identity) {
     ?>
 
     <div style="margin-bottom: 20px;">
-        <?php if (!$this->poll()->isVoted($poll)) : ?>
+        <?php if (!$isVoted) : ?>
             <?= $this->form()->openTag($form); ?>
             <ul>
                 <?php $element = $form->get('poll_option_identifier'); ?>
 
-                <?php foreach ($this->poll()->votes($poll) as $vote): ?>
+                <?php foreach ($votes as $vote): ?>
                     <li>
                         <label>
-                            <?php if(!$isVoted): ?>
+                            <?php if (!$isVoted): ?>
                                 <?= $this->formRadio(new \Zend\Form\Element\Radio($element->getName(), [
                                     'value_options' => [[
                                         'value' => $vote['id'],
@@ -118,22 +121,26 @@ if ($identity) {
             <?= $this->formButton($form->get('poll_identifier')->setAttribute('class', 'btn btn-default')->setLabel('Button')); ?>
             <?= $this->form()->closeTag($form); ?>
         <?php else: ?>
-            <?php $votes = $this->poll()->votes($poll); ?>
-
             <ul>
                 <?php foreach ($votes as $vote): ?>
                     <li>
-                        <?= $vote['name']; ?>
-                        <small><?= $vote['vote']; ?></small>
+                        <label>
+                            <?= $vote['name']; ?>
+                        </label>
+                        <small>
+                            Total: <?= $vote['total']; ?>
+                            Percents: <?= number_format($vote['percent'], 2); ?>%
+                        </small>
                     </li>
                 <?php endforeach; ?>
             </ul>
+            <a href="#" class="btn btn-link">Change voice</a>
         <?php endif; ?>
     </div>
 <?php else: ?>
     <h1>Authentication</h1>
 
-    <form method="POST" action="<?= $this->url('home/login');?>" class="row">
+    <form method="POST" action="<?= $this->url('home/login'); ?>" class="row">
         <div class="panel panel-body col-md-3">
             <div class="form-group has-feedback has-feedback-left">
                 <input type="text" name="username" class="form-control" placeholder="Username" value="">

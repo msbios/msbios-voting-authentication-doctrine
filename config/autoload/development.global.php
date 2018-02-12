@@ -183,7 +183,6 @@ return [
         'vote_resolvers' => [
             VoteRepositoryResolver::class => -100,
             VoteCookieResolver::class => -100
-
         ],
 
         /**

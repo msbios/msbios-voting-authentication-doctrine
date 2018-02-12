@@ -19,25 +19,9 @@ use MSBios\Voting\Resource\Doctrine\Entity;
  */
 class VoteCookieResolver extends AbstractCookieResolver implements
     VoteInterface,
-    ObjectManagerAwareInterface,
-    AuthenticationServiceAwareInterface
+    ObjectManagerAwareInterface
 {
     use ObjectManagerAwareTrait;
-    use AuthenticationServiceAwareTrait;
-
-    /**
-     * @param Entity\PollInterface $poll
-     * @param null $relation
-     * @return string
-     */
-    protected function hash(Entity\PollInterface $poll, $relation = null)
-    {
-        return md5(
-            $poll->getId() . md5(
-                $relation . md5($this->getAuthenticationService()->getIdentity()->getId())
-            )
-        );
-    }
 
     /**
      * @param Entity\OptionInterface $option

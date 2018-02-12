@@ -16,7 +16,7 @@ use MSBios\Doctrine\ObjectManagerAwareTrait;
 use MSBios\Guard\Resource\UserInterface;
 use MSBios\Resource\Doctrine\EntityInterface;
 use MSBios\Voting\Authentication\Resource\Doctrine\Entity\User;
-use MSBios\Voting\Authentication\Resource\Doctrine\Entity\User\Relation;
+use MSBios\Voting\Authentication\Resource\Doctrine\Entity\Relation;
 use MSBios\Voting\Doctrine\Resolver\VoteInterface;
 use MSBios\Voting\Doctrine\Resolver\VoteRepositoryResolver as DefaultVoteRepositoryResolver;
 use MSBios\Voting\Resource\Doctrine\Entity;
