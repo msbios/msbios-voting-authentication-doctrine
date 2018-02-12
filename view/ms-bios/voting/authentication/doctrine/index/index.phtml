@@ -6,14 +6,16 @@
 
 $identity = $this->identity();
 
-/** @var int $identifier */
-$identifier = 1;
 
-/** @var string $relation */
-$relation = null;
-$relation = 'SOME_RELATION[100550]';
 
 if ($identity) {
+
+    /** @var int $identifier */
+    $identifier = 1;
+
+    /** @var string $relation */
+    $relation = null;
+    $relation = 'SOME_RELATION[100555]';
 
     /** @var \MSBios\Voting\Resource\Doctrine\Entity\Poll $poll */
     $poll = $this->poll()->find($identifier, $relation);
