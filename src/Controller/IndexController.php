@@ -78,6 +78,7 @@ class IndexController extends DefaultIndexController implements
 
         /** @var EntityInterface $vote */
         $vote = $this->getVoteManager()->find($poll);
+
         $this->poll()->undo(
             $vote->getVote()->getOption()->getId(),
             $this->params()->fromRoute('relation')
