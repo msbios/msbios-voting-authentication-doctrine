@@ -12,7 +12,7 @@ use MSBios\Resource\Doctrine\EntityInterface;
 use MSBios\Voting\Doctrine\Controller\IndexController as DefaultIndexController;
 use MSBios\Voting\PollManagerAwareInterface;
 use MSBios\Voting\PollManagerAwareTrait;
-use MSBios\Voting\Resource\Doctrine\Entity\PollInterface;
+use MSBios\Voting\Resource\Record\PollInterface;
 use MSBios\Voting\VoteManagerAwareInterface;
 use MSBios\Voting\VoteManagerAwareTrait;
 use Zend\Authentication\Adapter\ValidatableAdapterInterface;
@@ -66,7 +66,7 @@ class IndexController extends DefaultIndexController implements
     }
 
     /**
-     *
+     * @return \Zend\Http\Response
      */
     public function undoAction()
     {
