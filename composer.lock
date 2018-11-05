@@ -55,16 +55,16 @@
         },
         {
             "name": "msbios/voting-authentication-resource-doctrine",
-            "version": "v1.0.8",
+            "version": "v1.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-voting-authentication-resource-doctrine.git",
-                "reference": "558592673b4648621b5e661cc445e091f9517685"
+                "reference": "d3a15b5c87dac85a14cbc3e555c3418f1a2c50e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-voting-authentication-resource-doctrine/zipball/558592673b4648621b5e661cc445e091f9517685",
-                "reference": "558592673b4648621b5e661cc445e091f9517685",
+                "url": "https://api.github.com/repos/msbios/msbios-voting-authentication-resource-doctrine/zipball/d3a15b5c87dac85a14cbc3e555c3418f1a2c50e9",
+                "reference": "d3a15b5c87dac85a14cbc3e555c3418f1a2c50e9",
                 "shasum": ""
             },
             "require-dev": {
@@ -100,7 +100,7 @@
             "keywords": [
                 "php"
             ],
-            "time": "2018-02-12T13:57:28+00:00"
+            "time": "2018-11-05T13:01:23+00:00"
         }
     ],
     "packages-dev": [
