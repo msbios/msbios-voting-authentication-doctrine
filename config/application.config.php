@@ -6,6 +6,10 @@
 return [
     // Retrieve list of modules used in this application.
     'modules' => [
+        'MSBios\Voting\I18n\Resource\Doctrine',
+        'MSBios\I18n\Doctrine',
+        'MSBios\Paginator\Doctrine',
+        'MSBios\Validator',
         'MSBios\Cache',
         'Zend\Serializer',
         'MSBios\Hydrator',
@@ -57,13 +61,11 @@ return [
         'MSBios\Resource\Doctrine',
         'MSBios\Form\Doctrine',
         'MSBios\CPanel\Doctrine',
-        'Zend\Log',
         'ZendDeveloperTools',
         'MSBios\Voting',
         'MSBios\Voting\Doctrine',
         'MSBios\Voting\Resource',
         'MSBios\Voting\Resource\Doctrine',
-
         'MSBios\Voting\Authentication\Doctrine',
         'MSBios\Voting\Authentication\Resource\Doctrine',
     ],
