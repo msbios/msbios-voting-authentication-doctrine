@@ -7,7 +7,7 @@
 
 namespace MSBios\Voting\Authentication\Doctrine;
 
-use MSBios\Authentication\Initializer\AuthenticationServiceInitializer;
+use MSBios\Authentication\AuthenticationServiceInitializer;
 use MSBios\Voting\Doctrine\Resolver\CheckCookieResolver;
 use MSBios\Voting\Doctrine\Resolver\CheckRepositoryResolver;
 use MSBios\Voting\Doctrine\Resolver\VoteCookieResolver;

@@ -7,7 +7,7 @@
 
 namespace MSBios\Voting\Authentication\Doctrine;
 
-use MSBios\Authentication\Initializer\AuthenticationServiceInitializer;
+use MSBios\Authentication\AuthenticationServiceInitializer;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
