@@ -65,7 +65,7 @@ class VoteRepositoryResolver extends DefaultVoteRepositoryResolver implements
     {
         /** @var AuthenticationServiceInterface $authenticationService */
         $authenticationService = $this->getAuthenticationService();
-        if (!$authenticationService->hasIdentity()) {
+        if (! $authenticationService->hasIdentity()) {
             return;
         }
 
@@ -86,8 +86,7 @@ class VoteRepositoryResolver extends DefaultVoteRepositoryResolver implements
                 'user' => $identity
             ]);
 
-            if (!$entity) {
-
+            if (! $entity) {
                 parent::vote($poll, $option);
 
                 /** @var UserRelation $entity */
@@ -109,8 +108,7 @@ class VoteRepositoryResolver extends DefaultVoteRepositoryResolver implements
             'user' => $identity
         ]);
 
-        if (!$entity) {
-
+        if (! $entity) {
             parent::vote($poll, $option);
 
             /** @var UserRelation $entity */
@@ -125,7 +123,6 @@ class VoteRepositoryResolver extends DefaultVoteRepositoryResolver implements
         }
 
         return;
-
     }
 
     /**
@@ -136,7 +133,7 @@ class VoteRepositoryResolver extends DefaultVoteRepositoryResolver implements
      */
     public function undo(PollInterface $poll, OptionInterface $option)
     {
-        if (!$this->getAuthenticationService()->hasIdentity()) {
+        if (! $this->getAuthenticationService()->hasIdentity()) {
             return;
         }
 

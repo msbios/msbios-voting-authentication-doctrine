@@ -50,7 +50,7 @@ class CheckRepositoryResolver implements CheckInterface, ObjectManagerAwareInter
         /** @var AuthenticationServiceInterface $authenticationService */
         $authenticationService = $this->getAuthenticationService();
 
-        if (!$authenticationService->hasIdentity()) {
+        if (! $authenticationService->hasIdentity()) {
             return false;
         }
 
