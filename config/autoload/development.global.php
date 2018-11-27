@@ -7,10 +7,6 @@
 
 namespace MSBios\Voting\Authentication\Doctrine;
 
-// use MSBios\Voting\Doctrine\Resolver\CheckCookieResolver;
-// use MSBios\Voting\Doctrine\Resolver\CheckRepositoryResolver;
-// use MSBios\Voting\Doctrine\Resolver\VoteCookieResolver;
-// use MSBios\Voting\Doctrine\Resolver\VoteRepositoryResolver;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [

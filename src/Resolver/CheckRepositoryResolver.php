@@ -43,7 +43,7 @@ class CheckRepositoryResolver implements CheckInterface, ObjectManagerAwareInter
 
     /**
      * @param PollInterface $poll
-     * @return bool
+     * @return bool|mixed
      */
     public function check(PollInterface $poll)
     {
@@ -59,10 +59,8 @@ class CheckRepositoryResolver implements CheckInterface, ObjectManagerAwareInter
             ->getObjectManager()
             ->getRepository($poll instanceof RelationInterface ? UserRelation::class : User::class);
 
-        r($repository
-                ->findByPollAndIdentity($poll, $authenticationService->getIdentity()) instanceof EntityInterface); die();
-
-        return $repository
-                ->findByPollAndIdentity($poll, $authenticationService->getIdentity()) instanceof EntityInterface;
+        /** @var EntityInterface $entity */
+        $entity = $repository->findByPollAndIdentity($poll, $authenticationService->getIdentity());
+        return $entity instanceof EntityInterface;
     }
 }
