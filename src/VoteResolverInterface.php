@@ -14,5 +14,5 @@ use MSBios\Voting\Doctrine\VoteResolverInterface as DefaultVoteResolverInterface
  */
 interface VoteResolverInterface extends DefaultVoteResolverInterface, VoteInterface
 {
-
+    // ...
 }

@@ -7,15 +7,10 @@
 
 namespace MSBios\Voting\Authentication\Doctrine;
 
-use MSBios\Authentication\AuthenticationServiceInitializer;
-use MSBios\Voting\Doctrine\Resolver\CheckCookieResolver;
-use MSBios\Voting\Doctrine\Resolver\CheckRepositoryResolver;
-use MSBios\Voting\Doctrine\Resolver\VoteCookieResolver;
-use MSBios\Voting\Doctrine\Resolver\VoteRepositoryResolver;
-use MSBios\Voting\Initializer\PollManagerInitializer;
-use MSBios\Voting\Initializer\VoteManagerInitializer;
-use Zend\Router\Http\Method;
-use Zend\Router\Http\Segment;
+// use MSBios\Voting\Doctrine\Resolver\CheckCookieResolver;
+// use MSBios\Voting\Doctrine\Resolver\CheckRepositoryResolver;
+// use MSBios\Voting\Doctrine\Resolver\VoteCookieResolver;
+// use MSBios\Voting\Doctrine\Resolver\VoteRepositoryResolver;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
@@ -32,61 +27,6 @@ return [
         ],
     ],
 
-    'router' => [
-        'routes' => [
-            'home' => [
-                'may_terminate' => true,
-                'child_routes' => [
-                    'vote' => [
-                        'type' => Segment::class,
-                        'options' => [
-                            'route' => 'vote[/]',
-                            'defaults' => [
-                                'action' => 'vote'
-                            ],
-                        ],
-                        'may_terminate' => true,
-                        'child_routes' => [
-                            [
-                                'type' => Method::class,
-                                'options' => [
-                                    'verb' => 'post'
-                                ]
-                            ]
-                        ]
-                    ],
-                    'undo' => [
-                        'type' => Segment::class,
-                        'options' => [
-                            'route' => 'undo/:poll_id[/[:relation[/]]]',
-                            'defaults' => [
-                                'action' => 'undo'
-                            ],
-                        ],
-                        'may_terminate' => true,
-                        'child_routes' => [
-                            [
-                                'type' => Method::class,
-                                'options' => [
-                                    'verb' => 'get'
-                                ]
-                            ]
-                        ]
-                    ],
-                    'login' => [
-                        'type' => Segment::class,
-                        'options' => [
-                            'route' => 'login[/]',
-                            'defaults' => [
-                                'action' => 'login'
-                            ],
-                        ]
-                    ]
-                ]
-            ],
-        ],
-    ],
-
     'controllers' => [
         'factories' => [
             Controller\IndexController::class =>
@@ -96,20 +36,9 @@ return [
             \MSBios\Application\Controller\IndexController::class =>
                 Controller\IndexController::class
         ],
-        'initializers' => [
-            PollManagerInitializer::class =>
-                new PollManagerInitializer,
-            AuthenticationServiceInitializer::class =>
-                new AuthenticationServiceInitializer,
-            VoteManagerInitializer::class =>
-                new VoteManagerInitializer
-        ]
     ],
 
     'view_manager' => [
-        'template_map' => [
-            // Template map
-        ],
         'template_path_stack' => [
             __DIR__ . '/../../view',
         ],
@@ -187,8 +116,8 @@ return [
          * ]
          */
         'vote_resolvers' => [
-            VoteRepositoryResolver::class => -100,
-            VoteCookieResolver::class => -100
+            Resolver\VoteRepositoryResolver::class => -100,
+            // Resolver\VoteCookieResolver::class => -100
         ],
 
         /**
@@ -199,8 +128,8 @@ return [
          * ]
          */
         'check_resolvers' => [
-            CheckRepositoryResolver::class => -100,
-            CheckCookieResolver::class => -100
+            Resolver\CheckRepositoryResolver::class => -100,
+            // Resolver\CheckCookieResolver::class => -100
         ]
     ]
 ];

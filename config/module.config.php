@@ -7,38 +7,22 @@
 
 namespace MSBios\Voting\Authentication\Doctrine;
 
-use MSBios\Authentication\AuthenticationServiceInitializer;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
 
     'service_manager' => [
         'factories' => [
-
-            // managers
-            VoteManager::class =>
-                Factory\VoteManagerFactory::class,
-            VoteResolver::class =>
-                Factory\VoteResolverFactory::class,
-
             // resolvers
             Resolver\CheckCookieResolver::class =>
                 InvokableFactory::class,
             Resolver\CheckRepositoryResolver::class =>
-                InvokableFactory::class,
+                Factory\RepositoryResolverFactory::class,
             Resolver\VoteCookieResolver::class =>
                 InvokableFactory::class,
             Resolver\VoteRepositoryResolver::class =>
-                InvokableFactory::class
+                Factory\RepositoryResolverFactory::class
         ],
-        'aliases' => [
-            \MSBios\Voting\VoteManager::class =>
-                VoteManager::class,
-        ],
-        'initializers' => [
-            AuthenticationServiceInitializer::class =>
-                new AuthenticationServiceInitializer
-        ]
     ],
 
     \MSBios\Voting\Module::class => [
@@ -48,7 +32,7 @@ return [
          * Expects: string
          * Default: MSBios\Voting\VoteResolver
          */
-        'vote_resolver' => VoteResolver::class,
+        // 'vote_resolver' => VoteResolver::class,
 
         /**
          *

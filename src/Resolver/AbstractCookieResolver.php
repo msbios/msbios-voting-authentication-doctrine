@@ -13,7 +13,7 @@ use MSBios\Voting\Resource\Record\PollInterface;
 use Zend\Authentication\AuthenticationServiceInterface;
 
 /**
- * Class CheckCookieResolver
+ * Class AbstractCookieResolver
  * @package MSBios\Voting\Authentication\Doctrine\Resolver
  */
 abstract class AbstractCookieResolver implements AuthenticationServiceAwareInterface

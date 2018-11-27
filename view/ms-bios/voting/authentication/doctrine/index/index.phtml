@@ -9,11 +9,10 @@ $identity = $this->identity();
 if ($identity) {
 
     /** @var int $identifier */
-    $identifier = 1;
+    $identifier = 'SOME_RELATION';
 
     /** @var string $relation */
-    $relation = null;
-    $relation = 'SOME_RELATION[101]';
+    $relation = 'SOME_RELATION[100500]';
 
     /** @var \MSBios\Voting\Resource\Doctrine\Entity\Poll $poll */
     $poll = $this->poll()->find($identifier, $relation);
@@ -22,7 +21,7 @@ if ($identity) {
     $votes = $this->poll()->votes($poll);
 
     /** @var boolean $isVoted */
-    $isVoted = $this->poll()->isVoted($poll);
+    $isVoted = $this->poll()->check($poll);
 }
 
 ?>
@@ -81,7 +80,7 @@ if ($identity) {
 
     /** @var \Zend\Form\FormInterface $form */
     $form = $this->poll()->form();
-    $form->setAttribute('action', $this->url('home/vote'));
+    $form->setAttribute('action', $this->url('home/voting'));
     $form->prepare();
 
     ?>
@@ -113,6 +112,7 @@ if ($identity) {
                 <?php endforeach; ?>
             </ul>
             <?= $this->formElement($form->get('poll_relation')); ?>
+            <?= $this->formElement($form->get('poll_redirect')); ?>
             <?= $this->formButton($form->get('poll_identifier')->setAttribute('class', 'btn btn-default')->setLabel('Button')); ?>
             <?= $this->form()->closeTag($form); ?>
         <?php else: ?>
@@ -129,7 +129,7 @@ if ($identity) {
                     </li>
                 <?php endforeach; ?>
             </ul>
-            <a href="<?= $this->url('home/undo', ['poll_id' => $identifier, 'relation' => $relation]); ?>" class="btn btn-link">
+            <a href="#" class="btn btn-link">
                 Change voice
             </a>
         <?php endif; ?>
