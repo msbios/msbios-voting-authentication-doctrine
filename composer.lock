@@ -3597,16 +3597,16 @@
         },
         {
             "name": "msbios/voting-doctrine",
-            "version": "v1.0.38",
+            "version": "v1.0.40",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-voting-doctrine.git",
-                "reference": "3a253179d28f9a095965ef40e4871ce2c1ef09da"
+                "reference": "554eac8441a06ec03925d796556718d8450147c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-voting-doctrine/zipball/3a253179d28f9a095965ef40e4871ce2c1ef09da",
-                "reference": "3a253179d28f9a095965ef40e4871ce2c1ef09da",
+                "url": "https://api.github.com/repos/msbios/msbios-voting-doctrine/zipball/554eac8441a06ec03925d796556718d8450147c4",
+                "reference": "554eac8441a06ec03925d796556718d8450147c4",
                 "shasum": ""
             },
             "require": {
@@ -3645,7 +3645,7 @@
             "keywords": [
                 "php"
             ],
-            "time": "2018-11-27T12:49:21+00:00"
+            "time": "2018-11-28T19:02:24+00:00"
         },
         {
             "name": "msbios/voting-i18n-resource-doctrine",
