@@ -7,16 +7,14 @@ namespace MSBios\Voting\Authentication\Doctrine\Factory;
 
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
-use MSBios\Voting\Authentication\Doctrine\Resolver\CheckRepositoryResolver;
-use MSBios\Voting\Authentication\Doctrine\Resolver\VoteRepositoryResolver;
 use Zend\Authentication\AuthenticationService;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
- * Class RepositoryResolverFactory
+ * Class ServiceFactory
  * @package MSBios\Voting\Authentication\Doctrine\Factory
  */
-class RepositoryResolverFactory implements FactoryInterface
+class ServiceFactory implements FactoryInterface
 {
     /**
      * @param ContainerInterface $container

@@ -104,25 +104,11 @@ return [
 
     \MSBios\Voting\Module::class => [
 
-        /**
-         *
-         * Expects: array
-         * Default: [
-         *     Resolver\VoteRepositoryResolver::class => -100
-         * ]
-         */
+        'vote_provider' => Provider\VoteProvider::class,
         'vote_resolvers' => [
             Resolver\VoteRepositoryResolver::class => -100,
             // Resolver\VoteCookieResolver::class => -100
         ],
-
-        /**
-         *
-         * Expects: array
-         * Default: [
-         *     Resolver\CheckRepositoryResolver::class => -100
-         * ]
-         */
         'check_resolvers' => [
             Resolver\CheckRepositoryResolver::class => -100,
             // Resolver\CheckCookieResolver::class => -100
@@ -130,13 +116,11 @@ return [
     ],
 
     \MSBios\Guard\Module::class => [
-
         'resource_providers' => [
             \MSBios\Guard\Provider\ResourceProvider::class => [
                 Controller\IndexController::class
             ]
         ],
-
         'rule_providers' => [
             \MSBios\Guard\Provider\RuleProvider::class => [
                 'allow' => [

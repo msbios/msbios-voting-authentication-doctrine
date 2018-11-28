@@ -11,5 +11,5 @@ namespace MSBios\Voting\Authentication\Doctrine;
  */
 class Exception extends \Exception
 {
-
+    // ...
 }

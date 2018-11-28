@@ -82,13 +82,15 @@ $form->setData([
     'poll_relation' => $poll->getCode(),
     'poll_identifier' => $poll->getPoll()->getId()
 ]);
-$form->setAttribute('action', $this->url('home/voting'));
-$form->prepare();
 
 ?>
 
 <div style="margin-bottom: 20px;">
     <?php if (!$isVoted) : ?>
+        <?php
+        $form->setAttribute('action', $this->url('home/voting'));
+        $form->prepare();
+        ?>
         <?= $this->form()->openTag($form); ?>
         <ul>
             <?php $element = $form->get('poll_option_identifier'); ?>
@@ -132,11 +134,18 @@ $form->prepare();
             <?php endforeach; ?>
         </ul>
 
-        <?= r($this->poll()->getVoteManager()->find($poll)); ?>
-
-        <a href="#" class="btn btn-link">
-            Change voice
-        </a>
+        <?php
+        $form->setAttribute('action', $this->url('home/voting-cancel'));
+        $form->prepare();
+        ?>
+        <?= $this->form()->openTag($form); ?>
+        <?= $this->formElement($form->get('poll_relation')); ?>
+        <?= $this->formElement($form->get('poll_redirect')); ?>
+        <?= $this->formHidden($form->get('poll_option_identifier')->setValue($this->poll()->getVoteManager()->find($poll)->getId())); ?>
+        <?= $this->formButton($form->get('poll_identifier')
+            ->setAttribute('class', 'btn btn-primary')
+            ->setLabel('Change voice')); ?>
+        <?= $this->form()->closeTag($form); ?>
     <?php endif; ?>
 </div>
 
@@ -146,5 +155,6 @@ $form->prepare();
     <li>Vote Doctrine Module version: <?= \MSBios\Voting\Doctrine\Module::VERSION; ?></li>
     <li>Vote Resource Doctrine Module version: <?= \MSBios\Voting\Resource\Doctrine\Module::VERSION; ?></li>
     <li>Vote Authentication Doctrine Module version: <?= \MSBios\Voting\Authentication\Doctrine\Module::VERSION; ?></li>
-    <li>Vote Authentication Resource Doctrine Module version: <?= \MSBios\Voting\Authentication\Resource\Doctrine\Module::VERSION; ?></li>
+    <li>Vote Authentication Resource Doctrine Module
+        version: <?= \MSBios\Voting\Authentication\Resource\Doctrine\Module::VERSION; ?></li>
 </ul>
