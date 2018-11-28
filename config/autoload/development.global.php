@@ -127,5 +127,22 @@ return [
             Resolver\CheckRepositoryResolver::class => -100,
             // Resolver\CheckCookieResolver::class => -100
         ]
-    ]
+    ],
+
+    \MSBios\Guard\Module::class => [
+
+        'resource_providers' => [
+            \MSBios\Guard\Provider\ResourceProvider::class => [
+                Controller\IndexController::class
+            ]
+        ],
+
+        'rule_providers' => [
+            \MSBios\Guard\Provider\RuleProvider::class => [
+                'allow' => [
+                    [['USER'], Controller\IndexController::class],
+                ],
+            ]
+        ],
+    ],
 ];

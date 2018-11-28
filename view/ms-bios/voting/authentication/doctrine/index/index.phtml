@@ -65,104 +65,80 @@ if ($identity) {
 
 <?php endif; ?>
 
-<?php if ($identity): ?>
-    <h1>
-        <?= $poll->getSubject(); ?><br>
-        <small class="text-muted">
-            <b>Total Votes:</b>
-            <small><?= $poll->getTotal(); ?></small>
-            <b>Avg:</b>
-            <small><?= number_format($poll->getAvg(), 2); ?></small>
-        </small>
-    </h1>
-    <?php
+<h1>
+    <?= $poll->getSubject(); ?><br>
+    <small class="text-muted">
+        <b>Total Votes:</b>
+        <small><?= $poll->getTotal(); ?></small>
+        <b>Avg:</b>
+        <small><?= number_format($poll->getAvg(), 2); ?></small>
+    </small>
+</h1>
+<?php
 
-    /** @var \Zend\Form\FormInterface $form */
-    $form = $this->form;
-    $form->setData([
-        'poll_relation' => $poll->getCode(),
-        'poll_identifier' => $poll->getPoll()->getId()
-    ]);
-    $form->setAttribute('action', $this->url('home/voting'));
-    $form->prepare();
+/** @var \Zend\Form\FormInterface $form */
+$form = $this->form;
+$form->setData([
+    'poll_relation' => $poll->getCode(),
+    'poll_identifier' => $poll->getPoll()->getId()
+]);
+$form->setAttribute('action', $this->url('home/voting'));
+$form->prepare();
 
-    ?>
+?>
 
-    <div style="margin-bottom: 20px;">
-        <?php if (!$isVoted) : ?>
-            <?= $this->form()->openTag($form); ?>
-            <ul>
-                <?php $element = $form->get('poll_option_identifier'); ?>
+<div style="margin-bottom: 20px;">
+    <?php if (!$isVoted) : ?>
+        <?= $this->form()->openTag($form); ?>
+        <ul>
+            <?php $element = $form->get('poll_option_identifier'); ?>
 
-                <?php foreach ($variants as $variant): ?>
-                    <li>
-                        <label>
-                            <?php if (!$isVoted): ?>
-                                <?= $this->formRadio(new \Zend\Form\Element\Radio($element->getName(), [
-                                    'value_options' => [[
-                                        'value' => $variant['id'],
-                                    ]]
-                                ])); ?>
-                            <?php endif; ?>
-                            <?= $variant['name']; ?>
-                        </label>
-                        <small>
-                            Total: <?= $variant['total']; ?>
-                            Percents: <?= number_format($variant['percent'], 2); ?>%
-                        </small>
+            <?php foreach ($variants as $variant): ?>
+                <li>
+                    <label>
+                        <?php if (!$isVoted): ?>
+                            <?= $this->formRadio(new \Zend\Form\Element\Radio($element->getName(), [
+                                'value_options' => [[
+                                    'value' => $variant['id'],
+                                ]]
+                            ])); ?>
+                        <?php endif; ?>
+                        <?= $variant['name']; ?>
+                    </label>
+                    <small>
+                        Total: <?= $variant['total']; ?>
+                        Percents: <?= number_format($variant['percent'], 2); ?>%
+                    </small>
 
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-            <?= $this->formElement($form->get('poll_relation')); ?>
-            <?= $this->formElement($form->get('poll_redirect')); ?>
-            <?= $this->formButton($form->get('poll_identifier')->setAttribute('class', 'btn btn-default')->setLabel('Button')); ?>
-            <?= $this->form()->closeTag($form); ?>
-        <?php else: ?>
-            <ul>
-                <?php foreach ($variants as $variant): ?>
-                    <li>
-                        <label>
-                            <?= $variant['name']; ?>
-                        </label>
-                        <small>
-                            Total: <?= $variant['total']; ?>
-                            Percents: <?= number_format($variant['percent'], 2); ?>%
-                        </small>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <?= $this->formElement($form->get('poll_relation')); ?>
+        <?= $this->formElement($form->get('poll_redirect')); ?>
+        <?= $this->formButton($form->get('poll_identifier')->setAttribute('class', 'btn btn-default')->setLabel('Button')); ?>
+        <?= $this->form()->closeTag($form); ?>
+    <?php else: ?>
+        <ul>
+            <?php foreach ($variants as $variant): ?>
+                <li>
+                    <label>
+                        <?= $variant['name']; ?>
+                    </label>
+                    <small>
+                        Total: <?= $variant['total']; ?>
+                        Percents: <?= number_format($variant['percent'], 2); ?>%
+                    </small>
+                </li>
+            <?php endforeach; ?>
+        </ul>
 
-            <?= r($this->poll()->getVoteManager()->find($poll)); ?>
+        <?= r($this->poll()->getVoteManager()->find($poll)); ?>
 
-            <a href="#" class="btn btn-link">
-                Change voice
-            </a>
-        <?php endif; ?>
-    </div>
-<?php else: ?>
-    <h1>Authentication</h1>
-
-    <form method="POST" action="<?= $this->url('home/login'); ?>" class="row">
-        <div class="panel panel-body col-md-3">
-            <div class="form-group has-feedback has-feedback-left">
-                <input type="text" name="username" class="form-control" placeholder="Username" value="">
-            </div>
-
-            <div class="form-group has-feedback has-feedback-left">
-                <input type="password" name="password" class="form-control" placeholder="Password" value="">
-            </div>
-
-            <div class="form-group">
-                <input type="hidden" name="redirect" value="">
-                <button type="submit" class="btn btn-primary">
-                    Sign in <i class="icon-circle-right2 position-right"></i>
-                </button>
-            </div>
-        </div>
-    </form>
-
-<?php endif; ?>
+        <a href="#" class="btn btn-link">
+            Change voice
+        </a>
+    <?php endif; ?>
+</div>
 
 <ul>
     <li>Vote Module version: <?= \MSBios\Voting\Module::VERSION; ?></li>
