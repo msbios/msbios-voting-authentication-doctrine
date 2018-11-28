@@ -26,7 +26,7 @@ return [
     'controllers' => [
         'factories' => [
             Controller\IndexController::class =>
-                InvokableFactory::class,
+                Factory\IndexControllerFactory::class,
         ],
         'aliases' => [
             \MSBios\Application\Controller\IndexController::class =>

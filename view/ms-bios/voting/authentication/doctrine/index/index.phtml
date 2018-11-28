@@ -7,7 +7,6 @@
 $identity = $this->identity();
 
 if ($identity) {
-
     /** @var int $identifier */
     $identifier = 'SOME_RELATION';
 
@@ -17,8 +16,8 @@ if ($identity) {
     /** @var \MSBios\Voting\Resource\Doctrine\Entity\Poll $poll */
     $poll = $this->poll()->find($identifier, $relation);
 
-    /** @var array $votes */
-    $votes = $this->poll()->votes($poll);
+    /** @var array $variants */
+    $variants = $this->poll()->variants($poll);
 
     /** @var boolean $isVoted */
     $isVoted = $this->poll()->check($poll);
@@ -79,7 +78,11 @@ if ($identity) {
     <?php
 
     /** @var \Zend\Form\FormInterface $form */
-    $form = $this->poll()->form();
+    $form = $this->form;
+    $form->setData([
+        'poll_relation' => $poll->getCode(),
+        'poll_identifier' => $poll->getPoll()->getId()
+    ]);
     $form->setAttribute('action', $this->url('home/voting'));
     $form->prepare();
 
@@ -91,21 +94,21 @@ if ($identity) {
             <ul>
                 <?php $element = $form->get('poll_option_identifier'); ?>
 
-                <?php foreach ($votes as $vote): ?>
+                <?php foreach ($variants as $variant): ?>
                     <li>
                         <label>
                             <?php if (!$isVoted): ?>
                                 <?= $this->formRadio(new \Zend\Form\Element\Radio($element->getName(), [
                                     'value_options' => [[
-                                        'value' => $vote['id'],
+                                        'value' => $variant['id'],
                                     ]]
                                 ])); ?>
                             <?php endif; ?>
-                            <?= $vote['name']; ?>
+                            <?= $variant['name']; ?>
                         </label>
                         <small>
-                            Total: <?= $vote['total']; ?>
-                            Percents: <?= number_format($vote['percent'], 2); ?>%
+                            Total: <?= $variant['total']; ?>
+                            Percents: <?= number_format($variant['percent'], 2); ?>%
                         </small>
 
                     </li>
@@ -117,18 +120,21 @@ if ($identity) {
             <?= $this->form()->closeTag($form); ?>
         <?php else: ?>
             <ul>
-                <?php foreach ($votes as $vote): ?>
+                <?php foreach ($variants as $variant): ?>
                     <li>
                         <label>
-                            <?= $vote['name']; ?>
+                            <?= $variant['name']; ?>
                         </label>
                         <small>
-                            Total: <?= $vote['total']; ?>
-                            Percents: <?= number_format($vote['percent'], 2); ?>%
+                            Total: <?= $variant['total']; ?>
+                            Percents: <?= number_format($variant['percent'], 2); ?>%
                         </small>
                     </li>
                 <?php endforeach; ?>
             </ul>
+
+            <?= r($this->poll()->getVoteManager()->find($poll)); ?>
+
             <a href="#" class="btn btn-link">
                 Change voice
             </a>
@@ -159,7 +165,10 @@ if ($identity) {
 <?php endif; ?>
 
 <ul>
-    <li>Vote Module version: <?= \MSBios\Voting\Doctrine\Module::VERSION; ?></li>
-    <li>Vote Resource Module version: <?= \MSBios\Voting\Resource\Doctrine\Module::VERSION; ?></li>
+    <li>Vote Module version: <?= \MSBios\Voting\Module::VERSION; ?></li>
+    <li>Vote Resource Module version: <?= \MSBios\Voting\Resource\Module::VERSION; ?></li>
+    <li>Vote Doctrine Module version: <?= \MSBios\Voting\Doctrine\Module::VERSION; ?></li>
+    <li>Vote Resource Doctrine Module version: <?= \MSBios\Voting\Resource\Doctrine\Module::VERSION; ?></li>
     <li>Vote Authentication Doctrine Module version: <?= \MSBios\Voting\Authentication\Doctrine\Module::VERSION; ?></li>
+    <li>Vote Authentication Resource Doctrine Module version: <?= \MSBios\Voting\Authentication\Resource\Doctrine\Module::VERSION; ?></li>
 </ul>
