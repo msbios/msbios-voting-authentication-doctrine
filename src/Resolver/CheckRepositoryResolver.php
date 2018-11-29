@@ -63,7 +63,7 @@ class CheckRepositoryResolver implements
             ->getRepository($poll instanceof RelationInterface ? UserRelation::class : User::class);
 
         /** @var EntityInterface $entity */
-        $entity = $repository->findByPollAndIdentity($poll, $authenticationService->getIdentity());
+        $entity = $repository->findOneByPollAndIdentity($poll, $authenticationService->getIdentity());
         return $entity instanceof EntityInterface;
     }
 }

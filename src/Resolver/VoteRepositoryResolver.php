@@ -44,17 +44,6 @@ class VoteRepositoryResolver extends DefaultVoteRepositoryResolver implements
         $this->setAuthenticationService($authenticationService);
     }
 
-    // /**
-    //  * @param PollInterface $poll
-    //  * @param OptionInterface $option
-    //  * @return mixed|EntityInterface
-    //  * @throws \Exception
-    //  */
-    // public function find(PollInterface $poll, OptionInterface $option)
-    // {
-    //     return parent::find($poll, $option);
-    // }
-
     /**
      * @param PollInterface $poll
      * @param OptionInterface $option

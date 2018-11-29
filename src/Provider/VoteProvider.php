@@ -53,7 +53,7 @@ class VoteProvider implements
         /** @var AuthenticationServiceInterface $authenticationService */
         $authenticationService = $this->getAuthenticationService();
 
-        if (!$authenticationService->hasIdentity()) {
+        if (! $authenticationService->hasIdentity()) {
             return;
         }
 
@@ -67,7 +67,7 @@ class VoteProvider implements
                 ->getRepository(UserRelation::class);
 
             /** @var UserRelation $userRelation */
-            $userRelation = $repository->findByPollAndIdentity($poll, $identity);
+            $userRelation = $repository->findOneByPollAndIdentity($poll, $identity);
 
             return $userRelation
                 ->getVote()
@@ -81,11 +81,10 @@ class VoteProvider implements
 
         /** @var User $user */
         $user = $repository
-            ->findByPollAndIdentity($poll, $identity);
+            ->findOneByPollAndIdentity($poll, $identity);
 
         return $user
             ->getVote()
             ->getOption();
-
     }
 }
